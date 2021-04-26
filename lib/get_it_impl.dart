@@ -311,16 +311,12 @@ class _GetItImplementation implements GetIt {
     final instanceFactory =
         _findFirstFactoryByNameAndTypeOrNull<T>(instanceName, type);
 
-    assert(
-      instanceFactory != null,
-      // ignore: missing_whitespace_between_adjacent_strings
-      'Object/factory with ${instanceName != null ? 'with name $instanceName and ' : ' '}'
-      'type ${T.toString()} is not registered inside GetIt. '
-      '\n(Did you accidentally do GetIt sl=GetIt.instance(); instead of GetIt sl=GetIt.instance;'
-      '\nDid you forget to register it?)',
-    );
+    if (instanceFactory == null) {
+      throw AssertionError(
+          'Object/factory with ${instanceName != null ? 'with name $instanceName and ' : ' '} type ${T.toString()}  is not registered!');
+    }
 
-    return instanceFactory!;
+    return instanceFactory;
   }
 
   /// retrieves or creates an instance of a registered type [T] depending on the registration
